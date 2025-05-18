@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { AsambleaService } from './asamblea.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { Asamblea } from 'src/entities/Asamblea.entity';
@@ -11,5 +11,10 @@ export class AsambleaController {
     @Get()
     getAll(): Promise<Asamblea[]>{
         return this.asambleaService.findAll();
+    }
+
+    @Get(':id')
+    getOne(@Param('id') id: string): Promise<Asamblea | null>{
+        return this.asambleaService.findById(id);
     }
 }

@@ -13,4 +13,8 @@ export class AsambleaService {
     async findAll(): Promise<Asamblea[]>{
         return this.asambleaRepository.find();
     }
+
+    async findById(id: string): Promise<Asamblea | null>{
+        return this.asambleaRepository.findOne({where: {IdAsamblea: id}});
+    }
 }

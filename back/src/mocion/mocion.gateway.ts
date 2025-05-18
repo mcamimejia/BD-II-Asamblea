@@ -1,9 +1,16 @@
-import { SubscribeMessage, WebSocketGateway } from '@nestjs/websockets';
+import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
+import { Server } from 'socket.io';
 
 @WebSocketGateway()
 export class MocionGateway {
-  @SubscribeMessage('message')
-  handleMessage(client: any, payload: any): string {
-    return 'Hello world!';
+  @WebSocketServer()
+  server: Server;
+
+  emitMocionCreada(mocion: any) {
+    this.server.emit('mocionCreada', mocion);
+  }
+
+  emitMocionEliminada(idMocion: string) {
+    this.server.emit('mocionEliminada', { id: idMocion });
   }
 }

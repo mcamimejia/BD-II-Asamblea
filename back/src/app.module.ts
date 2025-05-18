@@ -8,6 +8,7 @@ import { UsuarioModule } from './usuario/usuario.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { RolAsambleaModule } from './rol-asamblea/rol-asamblea.module';
 import { AsambleaModule } from './asamblea/asamblea.module';
+import { MocionModule } from './mocion/mocion.module';
 
 @Module({
   imports: [
@@ -37,7 +38,8 @@ import { AsambleaModule } from './asamblea/asamblea.module';
     AuthModule,
     UsuarioModule,
     RolAsambleaModule,
-    AsambleaModule
+    AsambleaModule,
+    MocionModule
   ],
   controllers: [AppController],
   providers: [AppService, MocionGateway],
