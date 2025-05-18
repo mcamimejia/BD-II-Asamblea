@@ -14,6 +14,7 @@ import { MotionGateway } from './motion/motion.gateway';
       username: 'mcamim',
       password: 'mcamim',
       database: 'AsambleaCS',
+      entities: [__dirname + '/entities/*.entity{.ts,.js}'],
       synchronize: false,
       autoLoadEntities: true,
       options: {
