@@ -6,6 +6,8 @@ import { AuthModule } from './auth/auth.module';
 import { MocionGateway } from './mocion/mocion.gateway';
 import { UsuarioModule } from './usuario/usuario.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { RolAsambleaModule } from './rol-asamblea/rol-asamblea.module';
+import { AsambleaModule } from './asamblea/asamblea.module';
 
 @Module({
   imports: [
@@ -33,7 +35,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       }),
     }),
     AuthModule,
-    UsuarioModule
+    UsuarioModule,
+    RolAsambleaModule,
+    AsambleaModule
   ],
   controllers: [AppController],
   providers: [AppService, MocionGateway],
