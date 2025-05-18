@@ -1,5 +1,6 @@
 import { Entity, PrimaryColumn, Column, OneToOne } from 'typeorm';
 import { Usuario } from './Usuario.entity';
+import { EstadoDocumento } from 'src/dto/RegisterDto';
 
 @Entity()
 export class Documento {
@@ -24,8 +25,8 @@ export class Documento {
   @Column({ nullable: true })
   ImgCompleto?: string;
 
-  @Column({ default: 'SIN_VERIFICAR' })
-  Estado: 'VALIDO' | 'NO_VALIDO' | 'ANULADO' | 'SIN_VERIFICAR';
+  @Column({ default: EstadoDocumento.SIN_VERIFICAR })
+  Estado: EstadoDocumento;
 
   @OneToOne(() => Usuario, (usuario) => usuario.Documento)
   Usuario: Usuario;

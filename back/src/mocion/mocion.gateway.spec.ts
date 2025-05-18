@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { MotionGateway } from './motion.gateway';
+import { MocionGateway } from './mocion.gateway';
 
-describe('MotionGateway', () => {
-  let gateway: MotionGateway;
+describe('MocionGateway', () => {
+  let gateway: MocionGateway;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [MotionGateway],
+      providers: [MocionGateway],
     }).compile();
 
-    gateway = module.get<MotionGateway>(MotionGateway);
+    gateway = module.get<MocionGateway>(MocionGateway);
   });
 
   it('should be defined', () => {

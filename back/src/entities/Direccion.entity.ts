@@ -29,7 +29,7 @@ export class Direccion {
   Pais: string;
 
   @OneToOne(() => Usuario, (usuario) => usuario.Direccion)
-  Usuarios: Usuario;
+  Usuario: Usuario;
 
   @OneToOne(() => ClienteProveedor, (cliente) => cliente.Direccion)
   Clientes: ClienteProveedor;
