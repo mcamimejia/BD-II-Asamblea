@@ -336,3 +336,34 @@ VALUES ('ROL001', 'ADMIN', 1, 1, 1, 1, 1), ('ROL002', 'INVITADO', 0, 0, 0, 0, 1)
 GO
 
 --------------------------------------
+
+--- Insertar Datos de Asambleas
+
+INSERT INTO Direccion (IdDireccion, DireccionUno, DireccionDos, Complemento, CodigoPostal, Barrio, Ciudad, Pais) VALUES
+('DIR1741647098219104', 'Diagonal 12#15-37', NULL, NULL, '158325', 'Edmundo Lopez', 'Montería', 'Colombia'),
+('DIR1741647098219106', 'Calle 55 14-31 Casa 2 Vallejuelo', NULL, NULL, '867725', 'La Castellana', 'Montería', 'Colombia'),
+('DIR1741647098219108', 'Calle 1', NULL, NULL, '390193', 'Puerto Unión', 'Puerto Libertador', 'Colombia'),
+('DIR1741647098219114', 'Diagonal 8 Transversal 3 Sur', NULL, NULL, '169217', 'Policarpa', 'Montería', 'Colombia'),
+('DIR1741647098219115', 'Cr  009   026  020 00000 Montería - Cord', 'Apto 301', 'Cerca al parque', '110111', 'Moñitos', 'Montería', 'Colombia'),
+('DIR1741647098219116', 'Mateo Gómez Cerete', NULL, NULL, '491267', 'Pekin', 'Cereté', 'Colombia');
+GO
+
+INSERT INTO ClienteProveedor (IdCliente, NombreEmpresa, Nit, AccionesEmpresa, IdDireccion) VALUES
+('CLI174164890987667', 'Solvo', 901180401, 10000000, 'DIR1741647098219104'),
+('CLI1741648909876221', 'Une epm telecomunicaciones', 900092385, 10030068, 'DIR1741647098219106'),
+('CLI174164890987625', 'Nubank', 901284129, 3707000000, 'DIR1741647098219108'),
+('CLI1741648909876901', 'Ecopetrol', 899999068, 404725125, 'DIR1741647098219114'),
+('CLI1741648909876100', 'Avianca', 890100577, 660800000, 'DIR1741647098219115'),
+('CLI1741648909876534', 'Exito', 890900608, 61421000, 'DIR1741647098219116');
+GO
+
+INSERT INTO Asamblea (IdAsamblea, Nombre, Fecha, HoraInicio, HoraFin, Lugar, AccionesTotal, AccionesMaximoParticipante, Tipo, IdCliente) VALUES
+('ASA1741657938646124', 'Asamblea General de Accionistas', '2025-04-15', '09:00:00', '12:00:00', 'Auditorio Central', 10000000, 1800, 'PRESENCIAL', 'CLI174164890987667'),
+('ASA1741657938646361', 'Asamblea Corporativa Anual', '2025-05-20', '10:30:00', '13:30:00', 'Sala de Conferencias A', 10030068, 1850, 'PRESENCIAL', 'CLI1741648909876221'),
+('ASA1741657938646678', 'Asamblea Estratégica Empresarial', '2025-06-10', '14:00:00', '16:30:00', 'Salón Empresarial B', 3707000000, 650000, 'PRESENCIAL', 'CLI174164890987625'),
+('ASA1741657938646932', 'Asamblea de Inversores y Directivos', '2025-07-05', '08:45:00', '11:15:00', 'GoogleMeet', 404725125, 70000, 'VIRTUAL', 'CLI1741648909876901'),
+('ASA1741657938646297', 'Asamblea Ordinaria de Socios', '2025-08-12', '15:00:00', '17:30:00', 'GoogleMeet', 660800000, 130000, 'VIRTUAL', 'CLI1741648909876100'),
+('ASA1741657938646154', 'Asamblea Extraordinaria de Decisiones', '2025-09-30', '16:45:00', '19:00:00', 'GoogleMeet', 61421000, 15000, 'VIRTUAL', 'CLI1741648909876534');
+GO
+
+-------------------------------
