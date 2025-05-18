@@ -23,10 +23,10 @@ export class Usuario {
   @Column({ unique: true })
   Correo: string;
 
-  @Column('bytea')
+  @Column('varbinary')
   HashPassword: Buffer;
 
-  @Column({ default: false })
+  @Column({ type: 'bit', default: false })
   EsEmpresa: boolean;
 
   @Column()

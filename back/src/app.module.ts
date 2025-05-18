@@ -5,23 +5,32 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { MocionGateway } from './mocion/mocion.gateway';
 import { UsuarioModule } from './usuario/usuario.module';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'mssql',
-      host: process.env.DB_HOST,
-      port: parseInt(process.env.DB_PORT || ''),
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
-      entities: [__dirname + '/entities/*.entity{.ts,.js}'],
-      synchronize: false,
-      autoLoadEntities: true,
-      options: {
-        encrypt: false,
-        enableArithAbort: true,
-      },
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (config: ConfigService) => ({
+        type: 'mssql',
+        host: config.get<string>('DB_HOST'),
+        port: parseInt(config.get<string>('DB_PORT') || '1433'),
+        username: config.get<string>('DB_USERNAME'),
+        password: config.get<string>('DB_PASSWORD'),
+        database: config.get<string>('DB_NAME'),
+        entities: [__dirname + '/entities/*.entity{.ts,.js}'],
+        synchronize: false,
+        autoLoadEntities: true,
+        options: {
+          encrypt: false,
+          enableArithAbort: true,
+        },
+      }),
     }),
     AuthModule,
     UsuarioModule

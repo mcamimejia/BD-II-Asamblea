@@ -18,7 +18,7 @@ export class ResultadosMocion {
   @Column()
   CantidadVotosTotal: number;
 
-  @Column({ type: 'boolean', default: false })
+  @Column({ type: 'bit', default: false })
   RequiereSecundar: boolean;
 
   @ManyToOne(() => Mocion, mocion => mocion.Resultados, {

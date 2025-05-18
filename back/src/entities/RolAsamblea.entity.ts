@@ -9,19 +9,19 @@ export class RolAsamblea {
   @Column()
   Rol: string;
 
-  @Column({ default: false })
+  @Column({ type: 'bit', default: false })
   Crear: boolean;
 
-  @Column({ default: false })
+  @Column({ type: 'bit', default: false })
   Modificar: boolean;
 
-  @Column({ default: false })
+  @Column({ type: 'bit', default: false })
   Eliminar: boolean;
 
-  @Column({ default: false })
+  @Column({ type: 'bit', default: false })
   Votar: boolean;
 
-  @Column({ default: false })
+  @Column({ type: 'bit', default: false })
   Descargar: boolean;
 
   @OneToMany(() => ParticipanteAsamblea, (participante) => participante.Rol)
