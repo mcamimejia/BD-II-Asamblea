@@ -27,7 +27,7 @@ export class Usuario {
   HashPassword: Buffer;
 
   @Column({ type: 'bit', default: false })
-  EsEmpresa: boolean;
+  EsEmpresa?: boolean;
 
   @Column()
   Perfil: PefilUsuario;

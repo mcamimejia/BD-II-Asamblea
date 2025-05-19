@@ -5,7 +5,7 @@ export class RegisterDto {
   SegundoNombre: string;
   PrimerApellido: string;
   SegundoApellido: string;
-  EsEmpresa: boolean;
+  EsEmpresa?: boolean;
   Perfil: PefilUsuario;
   DireccionUno: string;
   DireccionDos: string;
@@ -17,10 +17,10 @@ export class RegisterDto {
   NumDocumento: number;
   TipoDocumento: string;
   FechaExpedicion: Date;
-  ImgFrontal: string;
-  ImgReverso: string;
-  ImgCompleto: string;
-  Estado: EstadoDocumento
+  ImgFrontal?: string;
+  ImgReverso?: string;
+  ImgCompleto?: string;
+  Estado?: EstadoDocumento
 }
 
 export enum PefilUsuario {

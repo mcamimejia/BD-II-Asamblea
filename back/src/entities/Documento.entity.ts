@@ -26,7 +26,7 @@ export class Documento {
   ImgCompleto?: string;
 
   @Column({ default: EstadoDocumento.SIN_VERIFICAR })
-  Estado: EstadoDocumento;
+  Estado?: EstadoDocumento;
 
   @OneToOne(() => Usuario, (usuario) => usuario.Documento)
   Usuario: Usuario;
