@@ -7,6 +7,7 @@ import { Asamblea } from 'src/entities/Asamblea.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([Asamblea])],
   providers: [AsambleaService],
-  controllers: [AsambleaController]
+  controllers: [AsambleaController],
+  exports: [AsambleaService],
 })
 export class AsambleaModule {}

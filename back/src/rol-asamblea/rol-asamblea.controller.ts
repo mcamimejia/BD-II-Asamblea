@@ -1,4 +1,4 @@
-import { Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { RolAsambleaService } from './rol-asamblea.service';
 import { RolAsamblea } from 'src/entities/RolAsamblea.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
@@ -9,7 +9,12 @@ export class RolAsambleaController {
     constructor(private rolAsambleaService: RolAsambleaService) {}
 
     @Get()
-    getAll(): Promise<RolAsamblea[]> {
+    getAllRoles(): Promise<RolAsamblea[]> {
         return this.rolAsambleaService.findAll();
+    }
+
+    @Get(':id')
+    getRolById(@Param('id') id: string): Promise<RolAsamblea | null> {
+        return this.rolAsambleaService.findById(id);
     }
 }

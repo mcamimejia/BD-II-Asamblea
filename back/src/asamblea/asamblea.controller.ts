@@ -9,12 +9,12 @@ export class AsambleaController {
     constructor(private asambleaService: AsambleaService){}
 
     @Get()
-    getAll(): Promise<Asamblea[]>{
+    getAllAsambleas(): Promise<Asamblea[]>{
         return this.asambleaService.findAll();
     }
 
     @Get(':id')
-    getOne(@Param('id') id: string): Promise<Asamblea | null>{
+    getAsambleaById(@Param('id') id: string): Promise<Asamblea | null>{
         return this.asambleaService.findById(id);
     }
 }

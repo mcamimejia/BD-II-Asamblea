@@ -10,7 +10,11 @@ export class MocionGateway {
     this.server.emit('mocionCreada', mocion);
   }
 
-  emitMocionEliminada(idMocion: string) {
-    this.server.emit('mocionEliminada', { id: idMocion });
+  emitMocionInactiva(idMocion: string) {
+    this.server.emit('mocionInactiva', { id: idMocion });
+  }
+
+  emitResultadosMocion(idMocion: string) {
+    this.server.emit('resultadosMocion', { id: idMocion });
   }
 }

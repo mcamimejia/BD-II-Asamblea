@@ -9,6 +9,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { RolAsambleaModule } from './rol-asamblea/rol-asamblea.module';
 import { AsambleaModule } from './asamblea/asamblea.module';
 import { MocionModule } from './mocion/mocion.module';
+import { ParticipanteAsambleaModule } from './participante-asamblea/participante-asamblea.module';
+import { VotacionMocionModule } from './votacion-mocion/votacion-mocion.module';
+import { ResultadoMocionModule } from './resultado-mocion/resultado-mocion.module';
 
 @Module({
   imports: [
@@ -39,7 +42,10 @@ import { MocionModule } from './mocion/mocion.module';
     UsuarioModule,
     RolAsambleaModule,
     AsambleaModule,
-    MocionModule
+    MocionModule,
+    ParticipanteAsambleaModule,
+    VotacionMocionModule,
+    ResultadoMocionModule
   ],
   controllers: [AppController],
   providers: [AppService, MocionGateway],

@@ -10,22 +10,22 @@ export class MocionController {
     constructor(private mocionService: MocionService){}
 
     @Get()
-    getAll(): Promise<Mocion[]>{
+    getAllMociones(): Promise<Mocion[]>{
         return this.mocionService.findAll();
     }
 
-    @Get(':asamblea')
-    getAllByAsamblea(@Param('asamblea') asamblea: string): Promise<Mocion[]>{
+    @Get('asamblea/:asamblea')
+    getAllMocionesByAsamblea(@Param('asamblea') asamblea: string): Promise<Mocion[]>{
         return this.mocionService.findByAsamblea(asamblea);
     }
 
     @Get(':id')
-    getById(@Param('id') id: string): Promise<Mocion | null>{
+    getAsambleaById(@Param('id') id: string): Promise<Mocion | null>{
         return this.mocionService.findById(id);
     }
 
     @Post()
-    async createMocion(@Body() createMocionDto: CreateMocionDto) {
+    createMocion(@Body() createMocionDto: CreateMocionDto) {
         return this.mocionService.createMocion(createMocionDto);
     }
 }

@@ -9,7 +9,7 @@ import {
 import { Opciones } from './Opciones.entity';
 import { Asamblea } from './Asamblea.entity';
 import { VotacionMocion } from './VotacionMocion.entity';
-import { ResultadosMocion } from './ResultadoMocion.entity';
+import { ResultadosMocion } from './ResultadosMocion.entity';
 
 @Entity()
 export class Mocion {

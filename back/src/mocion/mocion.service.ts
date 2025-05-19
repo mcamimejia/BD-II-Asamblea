@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AsambleaService } from 'src/asamblea/asamblea.service';
 import { CreateMocionDto } from 'src/dto/CreateMocionDto';
@@ -8,16 +8,16 @@ import { formatTime } from 'src/utils/formatTime';
 import { generarId } from 'src/utils/generateIds';
 import { Repository } from 'typeorm';
 import { MocionGateway } from './mocion.gateway';
+import { ResultadoMocionService } from 'src/resultado-mocion/resultado-mocion.service';
 
 @Injectable()
 export class MocionService {
     constructor(
         @InjectRepository(Mocion)
         private readonly mocionRepository: Repository<Mocion>,
-
         private readonly asambleaService: AsambleaService,
-
-        private readonly mocionGateway: MocionGateway
+        private readonly mocionGateway: MocionGateway,
+        private readonly resultadoMocionService: ResultadoMocionService,
     ) {}
 
     async findAll(): Promise<Mocion[]>{
@@ -76,9 +76,10 @@ export class MocionService {
         
         this.mocionGateway.emitMocionCreada(savedMocion);
 
-        setTimeout(() => {
-            this.mocionGateway.emitMocionEliminada(savedMocion.IdMocion);
-        }, 10 * 60 * 1000); // 10 minutes
+        setTimeout(async () => {
+            this.mocionGateway.emitMocionInactiva(savedMocion.IdMocion);
+            this.resultadoMocionService.createResultado(savedMocion.IdMocion);
+        }, 10 * 60000); // 10 minutos
 
         return {
             message: 'Moción registrada exitosamente',

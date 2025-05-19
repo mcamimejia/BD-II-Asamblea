@@ -13,4 +13,8 @@ export class RolAsambleaService {
     async findAll(): Promise<RolAsamblea[]>{
         return this.rolAsambleaRepo.find();
     }
+
+    async findById(id: string): Promise<RolAsamblea | null> {
+        return this.rolAsambleaRepo.findOne({ where: { IdRol: id } });
+    }
 }
