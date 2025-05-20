@@ -2,7 +2,7 @@ import { Entity, PrimaryColumn, Column, OneToMany, JoinColumn, OneToOne } from '
 import { Direccion } from './Direccion.entity';
 import { Asamblea } from './Asamblea.entity';
 
-@Entity()
+@Entity('ClienteProveedor')
 export class ClienteProveedor {
   @PrimaryColumn({ length: 25 })
   IdCliente: string;

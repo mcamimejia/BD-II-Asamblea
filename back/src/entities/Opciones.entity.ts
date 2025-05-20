@@ -1,7 +1,7 @@
 import { Entity, PrimaryColumn, Column, OneToMany } from 'typeorm';
 import { Mocion } from './Mocion.entity';
 
-@Entity()
+@Entity('Opciones')
 export class Opciones {
   @PrimaryColumn()
   IdOpciones: string;

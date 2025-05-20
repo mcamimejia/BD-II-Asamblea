@@ -2,7 +2,7 @@ import { Entity, PrimaryColumn, Column, OneToMany, OneToOne } from 'typeorm';
 import { Usuario } from './Usuario.entity';
 import { ClienteProveedor } from './ClienteProveedor.entity';
 
-@Entity()
+@Entity('Direccion')
 export class Direccion {
   @PrimaryColumn()
   IdDireccion: string;

@@ -1,14 +1,19 @@
 import { useEffect, useState } from "react";
 import type { Alert } from "../../types/Alert";
-import { asambleaList } from "../../api/asambleaService";
+import { asambleaDetails } from "../../api/asambleaService";
 import type { Asamblea } from "../../types/Asamblea";
 import type { Mocion } from "../../types/Mocion";
+import { useParams } from "react-router-dom";
+import type { ParticipanteAsamblea } from "../../types/ParticipanteAsamblea";
+import { formatNumber } from "../../utils/formatNumber";
 
 export default function Asamblea() {
     const [asamblea, setAsamblea] = useState<Asamblea | null>(null);
     const [mociones, setMociones] = useState<Mocion[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [alert, setAlert] = useState<Alert | null>(null);
+    const [participante, setParticipante] = useState<ParticipanteAsamblea | null>(null);
+    const { id } = useParams<{ id: string }>();
 
     useEffect(() => {
         fetch();
@@ -16,8 +21,23 @@ export default function Asamblea() {
 
     const fetch = async () => {
         try {
-            const res = await asambleaList();
-            setAsamblea(res);
+            if (!id) {
+                setAlert({
+                    type: 'danger',
+                    message: 'Error al cargar detalles'
+                });
+                return null
+            }
+            const res = await asambleaDetails(id);
+            if (res.asamblea) {
+                setAsamblea(res.asamblea);
+            }
+            if(res.asamblea?.Mociones){
+                setMociones(res.Mociones)
+            }
+            if(res.participante){
+                setParticipante(res.participante)
+            }
         } catch (error: any) {
             setAlert({
                 type: 'danger',
@@ -34,11 +54,24 @@ export default function Asamblea() {
     return (
         <div className='asamblea-list-container container'>
             <h1>{asamblea?.Nombre}</h1>
-            <p><strong>Fecha:</strong> {asamblea?.Fecha && new Date(asamblea.Fecha).toLocaleDateString()}</p>
-            <p><strong>Hora Inicio:</strong> {asamblea?.Fecha && asamblea?.HoraInicio && new Date(`${asamblea.Fecha}T${asamblea.HoraInicio}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
-            <p><strong>Hora Fin:</strong> {asamblea?.Fecha && asamblea?.HoraFin && new Date(`${asamblea.Fecha}T${asamblea.HoraFin}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
-            <p><strong>Lugar:</strong> {asamblea?.Lugar}</p>
-            <p><strong>Tipo:</strong> {asamblea?.Tipo}</p>
+            <div className="row mt-5">
+                <div className="col">
+                    <p><strong>Fecha:</strong> {asamblea?.Fecha && new Date(asamblea.Fecha).toLocaleDateString()}</p>
+                    <p><strong>Hora Inicio:</strong> {asamblea?.Fecha && asamblea?.HoraInicio && new Date(`${asamblea.Fecha}T${asamblea.HoraInicio}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+                    <p><strong>Hora Fin:</strong> {asamblea?.Fecha && asamblea?.HoraFin && new Date(`${asamblea.Fecha}T${asamblea.HoraFin}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+                    <p><strong>Lugar:</strong> {asamblea?.Lugar}</p>
+                    <p><strong>Tipo:</strong> {asamblea?.Tipo}</p>
+                </div>
+                <div className="col">
+                    <p><strong>Total de acciones:</strong> {formatNumber(asamblea?.AccionesTotal ?? 0, 0)}</p>
+                    <p><strong>Máximo de acciones por participante:</strong> {formatNumber(asamblea?.AccionesMaximoParticipante ?? 0, 0)}</p>
+                </div>
+            </div>
+            {participante?.Rol?.Crear && (
+                <div className="d-flex justify-content-end">
+                    <button className="btn btn-primary">Crear Mocion</button>
+                </div>
+            )}
             <div className='row align-items-center mt-5'>
                 <div className="col-12">
                     <h3>Mociones:</h3>

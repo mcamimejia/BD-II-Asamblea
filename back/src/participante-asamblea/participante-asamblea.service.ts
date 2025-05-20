@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ParticipanteAsamblea } from 'src/entities/ParticipanteAsamblea.entity';
@@ -14,6 +14,7 @@ export class ParticipanteAsambleaService {
         @InjectRepository(ParticipanteAsamblea)
         private readonly participanteRepo: Repository<ParticipanteAsamblea>,
         private readonly usuarioService: UsuarioService,
+        @Inject(forwardRef(() => AsambleaService))
         private readonly asambleaService: AsambleaService,
         private readonly rolService: RolAsambleaService,
     ) { }
@@ -28,6 +29,10 @@ export class ParticipanteAsambleaService {
 
     async findById(id: string): Promise<ParticipanteAsamblea | null> {
         return this.participanteRepo.findOne({ where: { IdParticipante: id }});
+    }
+
+    async findByUsuarioId(id: string): Promise<ParticipanteAsamblea | null> {
+        return this.participanteRepo.findOne({ where: { Usuario: {IdUsuario: id} }, relations: ['Rol'] });
     }
 
     async createParticipante(dto: CreateParticipanteDto): Promise<ParticipanteAsamblea> {

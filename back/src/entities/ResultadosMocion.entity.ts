@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 import { Mocion } from './Mocion.entity';
 
-@Entity()
+@Entity('ResultadosMocion')
 export class ResultadosMocion {
   @PrimaryColumn()
   IdResultadoMocion: string;

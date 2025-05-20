@@ -11,7 +11,7 @@ import { Asamblea } from './Asamblea.entity';
 import { VotacionMocion } from './VotacionMocion.entity';
 import { ResultadosMocion } from './ResultadosMocion.entity';
 
-@Entity()
+@Entity('Mocion')
 export class Mocion {
   @PrimaryColumn()
   IdMocion: string;

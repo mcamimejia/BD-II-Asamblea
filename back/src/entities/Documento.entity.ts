@@ -1,7 +1,7 @@
 import { Entity, PrimaryColumn, Column, OneToOne } from 'typeorm';
 import { Usuario } from './Usuario.entity';
 
-@Entity()
+@Entity('Documento')
 export class Documento {
   @PrimaryColumn()
   IdDocumento: string;

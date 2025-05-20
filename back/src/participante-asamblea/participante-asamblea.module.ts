@@ -1,4 +1,4 @@
-import { Module, forwardRef } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { ParticipanteAsambleaService } from './participante-asamblea.service';
 import { ParticipanteAsambleaController } from './participante-asamblea.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -11,7 +11,7 @@ import { RolAsambleaModule } from 'src/rol-asamblea/rol-asamblea.module';
   imports: [
     TypeOrmModule.forFeature([ParticipanteAsamblea]),
     UsuarioModule,
-    AsambleaModule,
+    forwardRef(() => AsambleaModule),
     RolAsambleaModule,
   ],
   providers: [ParticipanteAsambleaService],

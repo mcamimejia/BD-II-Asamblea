@@ -6,6 +6,7 @@ import Login from './pages/login/Login'
 import Register from './pages/register/Register'
 import PrivateRoute from './context/PrivateRoute'
 import AsambleaList from './pages/asambleas/AsambleaList'
+import Asamblea from './pages/asambleas/Asamblea'
 
 function App () {
 
@@ -17,7 +18,7 @@ function App () {
           <Route path="/" element={<Login />} />
           <Route path="/registro" element={<Register />} />
           <Route path="/asambleas" element={<PrivateRoute><AsambleaList /></PrivateRoute>} />
-          <Route path="/asamblea/:id" element={<PrivateRoute><h1>Asamblea</h1></PrivateRoute>} />
+          <Route path="/asamblea/:id" element={<PrivateRoute><Asamblea /></PrivateRoute>} />
         </Routes>
       </div>
       <Footer />

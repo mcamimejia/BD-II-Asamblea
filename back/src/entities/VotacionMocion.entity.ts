@@ -8,7 +8,7 @@ import {
 import { ParticipanteAsamblea } from './ParticipanteAsamblea.entity';
 import { Mocion } from './Mocion.entity';
 
-@Entity()
+@Entity('VotacionMocion')
 export class VotacionMocion {
   @PrimaryColumn()
   IdVotacionMocion: string;

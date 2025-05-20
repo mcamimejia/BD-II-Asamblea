@@ -3,7 +3,7 @@ import { ClienteProveedor } from './ClienteProveedor.entity';
 import { ParticipanteAsamblea } from './ParticipanteAsamblea.entity';
 import { Mocion } from './Mocion.entity';
 
-@Entity()
+@Entity('Asamblea')
 export class Asamblea {
   @PrimaryColumn({ length: 25 })
   IdAsamblea: string;

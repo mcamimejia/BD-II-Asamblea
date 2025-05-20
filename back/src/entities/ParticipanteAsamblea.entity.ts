@@ -4,7 +4,7 @@ import { Asamblea } from './Asamblea.entity';
 import { RolAsamblea } from './RolAsamblea.entity';
 import { VotacionMocion } from './VotacionMocion.entity';
 
-@Entity()
+@Entity('ParticipanteAsamblea')
 export class ParticipanteAsamblea {
   @PrimaryColumn({ length: 25 })
   IdParticipante: string;

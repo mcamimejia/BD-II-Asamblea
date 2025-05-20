@@ -2,7 +2,7 @@ import { Entity, PrimaryColumn, Column, JoinColumn, OneToOne } from 'typeorm';
 import { Direccion } from './Direccion.entity';
 import { Documento } from './Documento.entity';
 
-@Entity()
+@Entity('Usuario')
 export class Usuario {
   @PrimaryColumn()
   IdUsuario: string;

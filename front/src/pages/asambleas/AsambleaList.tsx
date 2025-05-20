@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import type { Alert } from "../../types/Alert";
 import { asambleaList } from "../../api/asambleaService";
-import type { Asamblea } from "../../types/Asamblea";
+import type { AsambleaListRes } from "../../types/Asamblea";
 import { Link } from "react-router-dom";
 
 export default function AsambleaList() {
-    const [asambleas, setAsambleas] = useState<Asamblea[]>([]);
+    const [asambleas, setAsambleas] = useState<AsambleaListRes[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [alert, setAlert] = useState<Alert | null>(null);
 
@@ -57,7 +57,12 @@ export default function AsambleaList() {
                                         <td>{new Date(`${x.Fecha}T${x.HoraFin}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
                                         <td>{x.Lugar}</td>
                                         <td>{x.Tipo}</td>
-                                        <td><Link to={`/asamblea/${x.IdAsamblea}`}>Ver detalles</Link></td>
+                                        <td>
+                                            {x.isParticipante 
+                                                ? <Link to={`/asamblea/${x.IdAsamblea}`}>Ver detalles</Link>
+                                                : <button type="button" className="btn btn-primary">Participar</button>
+                                            }
+                                        </td>
                                     </tr>
                                 ))
                                 : <tr><td colSpan={7} className="text-center">No hay asambleas para mostrar</td></tr>
