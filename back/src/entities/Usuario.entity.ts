@@ -1,7 +1,6 @@
 import { Entity, PrimaryColumn, Column, JoinColumn, OneToOne } from 'typeorm';
 import { Direccion } from './Direccion.entity';
 import { Documento } from './Documento.entity';
-import { PefilUsuario } from 'src/dto/RegisterDto';
 
 @Entity()
 export class Usuario {
@@ -30,7 +29,7 @@ export class Usuario {
   EsEmpresa?: boolean;
 
   @Column()
-  Perfil: PefilUsuario;
+  Perfil: 'EMPLEADO' | 'EXTERNO';
 
   @OneToOne(() => Direccion, (direccion) => direccion.Usuario, { cascade: true })
   @JoinColumn({ name: 'IdDireccion' })

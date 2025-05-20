@@ -41,7 +41,6 @@ export class UsuarioService {
     documento.ImgFrontal = rest.ImgFrontal;
     documento.ImgReverso = rest.ImgReverso;
     documento.ImgCompleto = rest.ImgCompleto;
-    documento.Estado = rest.Estado;
 
     const user = new Usuario();
     user.IdUsuario = idUsuario;

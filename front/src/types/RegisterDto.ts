@@ -1,4 +1,4 @@
-export class RegisterDto {
+export type RegisterDto = {
   Correo: string;
   Password: string;
   PrimerNombre: string;
@@ -6,7 +6,7 @@ export class RegisterDto {
   PrimerApellido: string;
   SegundoApellido: string;
   EsEmpresa?: boolean;
-  Perfil: 'EMPLEADO' | 'EXTERNO';
+  Perfil: PefilUsuario;
   DireccionUno: string;
   DireccionDos: string;
   Complemento: string;
@@ -14,11 +14,15 @@ export class RegisterDto {
   Barrio: string;
   Ciudad: string;
   Pais: string;
-  NumDocumento: number;
+  NumDocumento: number | null;
   TipoDocumento: string;
-  FechaExpedicion: Date;
+  FechaExpedicion: Date | string | null;
   ImgFrontal?: string;
   ImgReverso?: string;
   ImgCompleto?: string;
-  Estado?: 'SIN_VERIFICAR' | 'VALIDO' | 'NO_VALIDO' | 'ANULADO';
+  Estado?: EstadoDocumento
 }
+
+export type PefilUsuario = '' | "EMPLEADO" | "EXTERNO";
+
+export type EstadoDocumento = "VALIDO" | "NO_VALIDO" | "ANULADO" | "SIN_VERIFICAR";
