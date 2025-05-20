@@ -44,6 +44,14 @@ export default function Register() {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
+            if (!userData.Correo || !userData.Password || !userData.PrimerNombre  || !userData.Perfil
+                || !userData.NumDocumento || !userData.TipoDocumento || !userData.FechaExpedicion
+                || !userData.DireccionUno || !userData.Barrio || !userData.Ciudad || !userData.Pais) {
+                setAlert({
+                    type: 'danger',
+                    message: 'Faltan datos requeridos'
+                });
+            }
             await register(userData);
 
             setAlert({
@@ -89,7 +97,6 @@ export default function Register() {
                                     placeholder='Segundo Nombre'
                                     value={userData.SegundoNombre}
                                     onChange={handleChange}
-                                    required
                                 />
                             </div>
                             <div className="mb-3">
@@ -101,7 +108,6 @@ export default function Register() {
                                     placeholder='Primer Apellido'
                                     value={userData.PrimerApellido}
                                     onChange={handleChange}
-                                    required
                                 />
                             </div>
                             <div className="mb-3">
@@ -139,6 +145,7 @@ export default function Register() {
                                     placeholder='Número de documento'
                                     value={userData.NumDocumento ?? ''}
                                     onChange={handleChange}
+                                    required
                                 />
                             </div>
                             <div className="mb-3">
@@ -150,6 +157,7 @@ export default function Register() {
                                     placeholder='Fecha de expedición'
                                     value={userData.FechaExpedicion?.toString() ?? ''}
                                     onChange={handleChange}
+                                    required
                                 />
                             </div>
                         </div>
@@ -230,6 +238,18 @@ export default function Register() {
                                     placeholder='Código Postal'
                                     value={userData.CodigoPostal}
                                     onChange={handleChange}
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="Barrio"
+                                    name="Barrio"
+                                    placeholder='Barrio'
+                                    value={userData.Barrio}
+                                    onChange={handleChange}
+                                    required
                                 />
                             </div>
                             <div className="mb-3">

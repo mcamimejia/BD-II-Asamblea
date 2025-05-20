@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Param, Body } from '@nestjs/common';
+import { Controller, Get, Post, Param, Body, UseGuards } from '@nestjs/common';
 import { VotacionMocionService } from './votacion-mocion.service';
 import { VotacionMocion } from 'src/entities/VotacionMocion.entity';
 import { CreateVotacionDto } from 'src/dto/CreateVotacionDto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('votacion-mocion')
 export class VotacionMocionController {
   constructor(private readonly votacionMocionService: VotacionMocionService) {}

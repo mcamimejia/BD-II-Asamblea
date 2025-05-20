@@ -1,8 +1,11 @@
-import { Controller, Post, Body, Get, Param } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Req, UseGuards } from '@nestjs/common';
 import { ParticipanteAsambleaService } from './participante-asamblea.service';
 import { CreateParticipanteDto } from 'src/dto/CreateParticipanteDto';
 import { ParticipanteAsamblea } from 'src/entities/ParticipanteAsamblea.entity';
+import { AuthRequest } from 'src/dto/AuthRequest';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('participante-asamblea')
 export class ParticipanteAsambleaController {
   constructor(private readonly participanteService: ParticipanteAsambleaService) {}
@@ -23,7 +26,8 @@ export class ParticipanteAsambleaController {
   }
 
   @Post()
-  async createParticipante(@Body() createParticipanteDto: CreateParticipanteDto): Promise<ParticipanteAsamblea> {
-    return this.participanteService.createParticipante(createParticipanteDto);
+  async createParticipante(@Req() req: AuthRequest, @Body() createParticipanteDto: CreateParticipanteDto): Promise<ParticipanteAsamblea> {
+    const idUsuario = req.user?.userId;
+    return this.participanteService.createParticipante(createParticipanteDto, idUsuario);
   }
 }

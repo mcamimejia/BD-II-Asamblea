@@ -13,7 +13,7 @@ export class Documento {
   TipoDocumento: string;
 
   @Column({ type: 'date', nullable: true })
-  FechaExpedicion?: Date;
+  FechaExpedicion: Date;
 
   @Column({ nullable: true })
   ImgFrontal?: string;

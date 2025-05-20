@@ -3,11 +3,13 @@ import type { Alert } from "../../types/Alert";
 import { asambleaList } from "../../api/asambleaService";
 import type { AsambleaListRes } from "../../types/Asamblea";
 import { Link } from "react-router-dom";
+import ParticiparModal from "../../components/modal/ParticiparModal";
 
 export default function AsambleaList() {
     const [asambleas, setAsambleas] = useState<AsambleaListRes[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [alert, setAlert] = useState<Alert | null>(null);
+    const [asambleaSelected, setAsambleaSelected] = useState<string | null>(null);
 
     useEffect(() => {
         fetch();
@@ -60,7 +62,7 @@ export default function AsambleaList() {
                                         <td>
                                             {x.isParticipante 
                                                 ? <Link to={`/asamblea/${x.IdAsamblea}`}>Ver detalles</Link>
-                                                : <button type="button" className="btn btn-primary">Participar</button>
+                                                : <button type="button" onClick={() => setAsambleaSelected(x.IdAsamblea)} data-bs-toggle="modal" data-bs-target="#participarModal" className="btn btn-primary">Participar</button>
                                             }
                                         </td>
                                     </tr>
@@ -71,6 +73,10 @@ export default function AsambleaList() {
                     </table>
                 </div>
             </div>
+            <ParticiparModal 
+                idAsamblea={asambleaSelected ?? ''}  
+                onSuccess={fetch}
+            />
         </div>
     )
 }

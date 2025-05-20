@@ -35,8 +35,24 @@ export class ParticipanteAsambleaService {
         return this.participanteRepo.findOne({ where: { Usuario: {IdUsuario: id} }, relations: ['Rol'] });
     }
 
-    async createParticipante(dto: CreateParticipanteDto): Promise<ParticipanteAsamblea> {
-        const usuario = await this.usuarioService.findById(dto.IdUsuario);
+    async createParticipante(dto: CreateParticipanteDto, idUsuario: string): Promise<ParticipanteAsamblea> {
+        
+        if (!idUsuario || !dto.AccionesRepresentadas || !dto.IdAsamblea || !dto.IdRol) {
+            throw new Error('Faltan datos requeridos');
+        }
+
+        const participanteExistente = await this.participanteRepo.findOne({
+            where: {
+                Usuario: { IdUsuario: idUsuario },
+                Asamblea: { IdAsamblea: dto.IdAsamblea },
+            },
+        });
+
+        if (participanteExistente) {
+            throw new Error('El usuario ya está registrado en esta asamblea');
+        }
+        
+        const usuario = await this.usuarioService.findById(idUsuario);
         const asamblea = await this.asambleaService.findById(dto.IdAsamblea);
         const rol = await this.rolService.findById(dto.IdRol);
 

@@ -26,8 +26,10 @@ export class VotacionMocionService {
     }
 
     async createVotacion(dto: CreateVotacionDto): Promise<VotacionMocion> {
-
-        const { IdParticipante, IdMocion } = dto;
+        const { OpcionVoto, IdParticipante, IdMocion } = dto;
+        if (!OpcionVoto || !IdParticipante || !IdMocion) {
+            throw new Error('Faltan datos requeridos');
+        }
         const participante = await this.participanteService.findById(IdParticipante);
         const mocion = await this.mocionService.findById(IdMocion);
 

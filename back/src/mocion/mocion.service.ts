@@ -36,6 +36,10 @@ export class MocionService {
         const idMocion = generarId('MOC');
         const idOpciones = generarId('OPC');
 
+        if (!createMocionDto.Pregunta || !createMocionDto.Opcion1 || !createMocionDto.Opcion2 || !createMocionDto.TipoMocion) {
+            throw new Error('Faltan datos requeridos');
+        }
+
         const asamblea = await this.asambleaService.findById(createMocionDto.IdAsamblea);
 
         if (!asamblea) {

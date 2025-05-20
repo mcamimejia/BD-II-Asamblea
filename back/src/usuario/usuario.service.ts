@@ -16,6 +16,11 @@ export class UsuarioService {
   ) {}
 
   async register(registerDto: RegisterDto) {
+    if (!registerDto.Correo || !registerDto.Password || !registerDto.PrimerNombre  || !registerDto.Perfil
+      || !registerDto.NumDocumento || !registerDto.TipoDocumento || !registerDto.FechaExpedicion
+      || !registerDto.DireccionUno || !registerDto.Barrio || !registerDto.Ciudad || !registerDto.Pais) {
+      throw new Error('Faltan datos requeridos');
+    }
     const { Password, ...rest } = registerDto;
     const HashPassword = await bcrypt.hash(Password, 10);
     
