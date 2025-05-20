@@ -26,7 +26,7 @@ export class AsambleaService {
     async findByIdWithParticipante(id: string, idUsuario: string): Promise<{asamblea: Asamblea | null, participante: ParticipanteAsamblea | null}>{
         const [asamblea, participante] = await Promise.all([
             this.asambleaRepository.findOne({where: {IdAsamblea: id}, relations: ['Mociones']}),
-            this.participanteService.findByUsuarioId(idUsuario)
+            this.participanteService.findByUsuarioAndAsamblea(idUsuario, id)
         ])
         return {asamblea, participante}
     }

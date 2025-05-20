@@ -31,8 +31,8 @@ export class ParticipanteAsambleaService {
         return this.participanteRepo.findOne({ where: { IdParticipante: id }});
     }
 
-    async findByUsuarioId(id: string): Promise<ParticipanteAsamblea | null> {
-        return this.participanteRepo.findOne({ where: { Usuario: {IdUsuario: id} }, relations: ['Rol'] });
+    async findByUsuarioAndAsamblea(idUsuario: string, idAsamblea: string): Promise<ParticipanteAsamblea | null> {
+        return this.participanteRepo.findOne({ where: { Usuario: {IdUsuario: idUsuario}, Asamblea: {IdAsamblea: idAsamblea} }, relations: ['Rol'] });
     }
 
     async createParticipante(dto: CreateParticipanteDto, idUsuario: string): Promise<ParticipanteAsamblea> {
@@ -58,6 +58,14 @@ export class ParticipanteAsambleaService {
 
         if (!usuario || !asamblea || !rol) {
             throw new Error('Usuario, Asamblea o Rol no encontrado');
+        }
+
+        if(dto.AccionesRepresentadas > asamblea.AccionesMaximoParticipante) {
+            throw new Error('El número de acciones representadas no puede ser mayor al máximo permitido');
+        }
+
+        if (new Date(asamblea.Fecha) < new Date()) {
+            throw new Error('La asamblea ya ha pasado');
         }
 
         const participante = new ParticipanteAsamblea();
