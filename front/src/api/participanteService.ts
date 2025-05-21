@@ -8,7 +8,8 @@ export const createParticipante = async (data: CreateParticipanteDto) => {
       const res = await apiClient.post(`${baseUrl}`, data);
       return res.data;
     } catch (error: any) {
-      throw new Error(error.message || `Error en registro`);
+      const backendMsg = error.response?.data?.message;
+      throw new Error(backendMsg || error.message || `Error al registrar el participante`); 
     }
 }
 
@@ -17,6 +18,7 @@ export const getRoles = async () => {
         const res = await apiClient.get(`/rol-asamblea`);
         return res.data;
     } catch (error: any) {
-        throw new Error(error.message || `Error al cargar los roles`);
+      const backendMsg = error.response?.data?.message;
+      throw new Error(backendMsg || error.message || `Error al obtener los roles`); 
     }
 }

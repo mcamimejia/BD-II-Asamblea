@@ -7,7 +7,8 @@ export const asambleaList = async () => {
     const res = await apiClient.get(`${baseUrl}`);
     return res.data;
   } catch (error: any) {
-    throw new Error(error.message || `Error al obtener asambleas`);
+    const backendMsg = error.response?.data?.message;
+    throw new Error(backendMsg || error.message || `Error en obtener la lista de asambleas`); 
   }
 }
 
@@ -16,6 +17,7 @@ export const asambleaDetails = async (idAsamblea: string) => {
     const res = await apiClient.get(`${baseUrl}/${idAsamblea}`);
     return res.data;
   } catch (error: any) {
-    throw new Error(error.message || `Error al obtener asamblea`);
+    const backendMsg = error.response?.data?.message;
+    throw new Error(backendMsg || error.message || `Error en obetener los detalles de la asamblea`); 
   }
 }

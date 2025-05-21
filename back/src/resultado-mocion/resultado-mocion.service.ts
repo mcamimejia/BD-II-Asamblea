@@ -1,4 +1,4 @@
-import { Injectable, Inject, forwardRef } from '@nestjs/common';
+import { Injectable, Inject, forwardRef, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ResultadosMocion } from 'src/entities/ResultadosMocion.entity';
 import { MocionGateway } from 'src/mocion/mocion.gateway';
@@ -26,11 +26,11 @@ export class ResultadoMocionService {
     async createResultado(IdMocion: string): Promise<void> {
         const mocion = await this.mocionService.findById(IdMocion);
         if (!mocion) {
-            throw new Error('Mocion no encontrada');
+            throw new NotFoundException('Mocion no encontrada');
         }
         const votaciones = await this.votacionMocionService.findAllByMocionId(IdMocion);
         if (!votaciones) {
-            throw new Error('No hay votaciones para esta mocion');
+            throw new NotFoundException('No hay votaciones para esta mocion');
         }
         const cantidadVotosTotal = votaciones.length;
         const votosPerOption: Record<string, number> = {};

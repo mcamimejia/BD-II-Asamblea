@@ -86,6 +86,15 @@ export default function ParticiparModal({ idAsamblea, onSuccess }: ParticiparMod
         }
     };
 
+    const handleClose = () => {
+        setData({
+            AccionesRepresentadas: 0,
+            IdAsamblea: idAsamblea,
+            IdRol: ''
+        });
+        setAlert(null);
+    }
+
     return (
         <div
             className="modal fade"
@@ -98,7 +107,7 @@ export default function ParticiparModal({ idAsamblea, onSuccess }: ParticiparMod
                 <div className="modal-content">
                     <div className="modal-header">
                         <h5 className="modal-title">Participar</h5>
-                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" className="btn-close" onClick={handleClose} data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div className="modal-body">
                         <form onSubmit={handleSubmit}>

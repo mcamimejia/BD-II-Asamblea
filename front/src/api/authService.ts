@@ -6,7 +6,8 @@ export const postLogin = async (data: LoginDto) => {
       const res = await apiClient.post('/auth/login', data);
       return res.data;
     } catch (error: any) {
-      throw new Error(error.message || `Error en login`);
+      const backendMsg = error.response?.data?.message;
+      throw new Error(backendMsg || error.message || `Error en login`); 
     }
 }
 

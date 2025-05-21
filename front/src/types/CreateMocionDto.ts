@@ -1,4 +1,4 @@
-export class CreateMocionDto {
+export type CreateMocionDto = {
   Pregunta: string;
   Descripcion?: string;
   IdAsamblea: string;

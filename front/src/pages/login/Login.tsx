@@ -27,6 +27,14 @@ export default function Login() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
+            if (!userData.correo || !userData.password) {
+                setAlert({
+                    type: 'danger',
+                    message: 'Faltan campos requeridos'
+                });
+                return;
+            }
+
             const res = await postLogin(userData);
             login(res.access_token);
             navigate('/asambleas');

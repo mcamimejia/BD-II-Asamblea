@@ -6,6 +6,7 @@ import type { Mocion } from "../../types/Mocion";
 import { useParams } from "react-router-dom";
 import type { ParticipanteAsamblea } from "../../types/ParticipanteAsamblea";
 import { formatNumber } from "../../utils/formatNumber";
+import CreateMocionModal from "../../components/modal/CreateMocionModal";
 
 export default function Asamblea() {
     const [asamblea, setAsamblea] = useState<Asamblea | null>(null);
@@ -56,20 +57,26 @@ export default function Asamblea() {
             <h1>{asamblea?.Nombre}</h1>
             <div className="row mt-5">
                 <div className="col">
+                    <h3>Detalles de la asamblea</h3>
                     <p><strong>Fecha:</strong> {asamblea?.Fecha && new Date(asamblea.Fecha).toLocaleDateString()}</p>
                     <p><strong>Hora Inicio:</strong> {asamblea?.Fecha && asamblea?.HoraInicio && new Date(`${asamblea.Fecha}T${asamblea.HoraInicio}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
                     <p><strong>Hora Fin:</strong> {asamblea?.Fecha && asamblea?.HoraFin && new Date(`${asamblea.Fecha}T${asamblea.HoraFin}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
                     <p><strong>Lugar:</strong> {asamblea?.Lugar}</p>
                     <p><strong>Tipo:</strong> {asamblea?.Tipo}</p>
-                </div>
-                <div className="col">
                     <p><strong>Total de acciones:</strong> {formatNumber(asamblea?.AccionesTotal ?? 0, 0)}</p>
                     <p><strong>Máximo de acciones por participante:</strong> {formatNumber(asamblea?.AccionesMaximoParticipante ?? 0, 0)}</p>
+                </div>
+                <div className="col">
+                    <h3>Datos Participante</h3>
+                    <p><strong>Rol:</strong> {participante?.Rol?.Rol}</p>
+                    {participante?.Rol?.IdRol === 'ROL003' && (
+                        <p><strong>Acciones actuales representadas:</strong> {formatNumber(participante?.AccionesRepresentadas ?? 0, 0)}</p>
+                    )}
                 </div>
             </div>
             {participante?.Rol?.Crear && (
                 <div className="d-flex justify-content-end">
-                    <button className="btn btn-primary">Crear Mocion</button>
+                    <button className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#crearMocionModal">Crear Mocion</button>
                 </div>
             )}
             <div className='row align-items-center mt-5'>
@@ -106,6 +113,10 @@ export default function Asamblea() {
                     </table>
                 </div>
             </div>
+            <CreateMocionModal 
+                idAsamblea={id ?? ''}  
+                onSuccess={fetch}
+            />
         </div>
     )
 }

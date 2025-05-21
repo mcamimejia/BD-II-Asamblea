@@ -25,11 +25,11 @@ export class Mocion {
   @Column()
   TipoMocion: string;
 
-  @Column({ type: 'time' })
-  HoraInicio: string;
+  @Column({ type: 'datetime' })
+  HoraInicio: Date;
 
-  @Column({ type: 'time' })
-  HoraFin: string;
+  @Column({ type: 'datetime' }) 
+  HoraFin: Date;
 
   @ManyToOne(() => Opciones, opciones => opciones.mociones)
   @JoinColumn({ name: 'IdOpciones' })

@@ -1,4 +1,4 @@
-import { Injectable, Inject, forwardRef } from '@nestjs/common';
+import { Injectable, Inject, forwardRef, BadRequestException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AsambleaService } from 'src/asamblea/asamblea.service';
 import { CreateMocionDto } from 'src/dto/CreateMocionDto';
@@ -36,14 +36,14 @@ export class MocionService {
         const idMocion = generarId('MOC');
         const idOpciones = generarId('OPC');
 
-        if (!createMocionDto.Pregunta || !createMocionDto.Opcion1 || !createMocionDto.Opcion2 || !createMocionDto.TipoMocion) {
-            throw new Error('Faltan datos requeridos');
+        if (!createMocionDto.Pregunta || !createMocionDto.Opcion1 || !createMocionDto.Opcion2) {
+            throw new BadRequestException('Faltan datos requeridos');
         }
 
         const asamblea = await this.asambleaService.findById(createMocionDto.IdAsamblea);
 
         if (!asamblea) {
-            throw new Error('Asamblea no existe')
+            throw new NotFoundException('Asamblea no existe')
         }
 
         const opciones = new Opciones();
@@ -66,9 +66,9 @@ export class MocionService {
         newMocion.IdMocion = idMocion;
         newMocion.Pregunta = createMocionDto.Pregunta;
         newMocion.Descripcion = createMocionDto.Descripcion;
-        newMocion.TipoMocion = createMocionDto.TipoMocion;
-        newMocion.HoraInicio = formatTime(horaInicio);
-        newMocion.HoraFin = formatTime(horaFin);
+        newMocion.TipoMocion = 'VOTACION';
+        newMocion.HoraInicio = horaInicio;
+        newMocion.HoraFin = horaFin;
         newMocion.Opciones = opciones;
         newMocion.Asamblea = asamblea;
 

@@ -1,4 +1,4 @@
-import { Injectable, Inject, forwardRef } from '@nestjs/common';
+import { Injectable, Inject, forwardRef, BadRequestException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateVotacionDto } from 'src/dto/CreateVotacionDto';
 import { VotacionMocion } from 'src/entities/VotacionMocion.entity';
@@ -28,13 +28,13 @@ export class VotacionMocionService {
     async createVotacion(dto: CreateVotacionDto): Promise<VotacionMocion> {
         const { OpcionVoto, IdParticipante, IdMocion } = dto;
         if (!OpcionVoto || !IdParticipante || !IdMocion) {
-            throw new Error('Faltan datos requeridos');
+            throw new BadRequestException('Faltan datos requeridos');
         }
         const participante = await this.participanteService.findById(IdParticipante);
         const mocion = await this.mocionService.findById(IdMocion);
 
         if (!participante || !mocion) {
-            throw new Error('Participante o moción no encontrados');
+            throw new NotFoundException('Participante o moción no encontrados');
         }
 
         const votacion = new VotacionMocion();

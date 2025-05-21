@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RegisterDto } from 'src/dto/RegisterDto';
 import { Usuario } from 'src/entities/Usuario.entity';
@@ -19,7 +19,7 @@ export class UsuarioService {
     if (!registerDto.Correo || !registerDto.Password || !registerDto.PrimerNombre  || !registerDto.Perfil
       || !registerDto.NumDocumento || !registerDto.TipoDocumento || !registerDto.FechaExpedicion
       || !registerDto.DireccionUno || !registerDto.Barrio || !registerDto.Ciudad || !registerDto.Pais) {
-      throw new Error('Faltan datos requeridos');
+      throw new BadRequestException('Faltan datos requeridos');
     }
     const { Password, ...rest } = registerDto;
     const HashPassword = await bcrypt.hash(Password, 10);
