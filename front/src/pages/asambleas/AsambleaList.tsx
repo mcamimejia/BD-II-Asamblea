@@ -64,7 +64,7 @@ export default function AsambleaList() {
                                         <td>{formatNumber(x.AccionesMaximoParticipante,0)}</td>
                                         <td>
                                             {x.isParticipante 
-                                                ? <Link to={`/asamblea/${x.IdAsamblea}`}>Ver detalles</Link>
+                                                ? <Link to={`/asamblea/${x.IdAsamblea}`}>Ingresar</Link>
                                                 : <button type="button" onClick={() => setAsambleaSelected(x.IdAsamblea)} data-bs-toggle="modal" data-bs-target="#participarModal" className="btn btn-primary">Participar</button>
                                             }
                                         </td>

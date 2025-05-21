@@ -105,8 +105,8 @@ export default function VotarModal({ mocion, participanteId, onSuccess }: VotarM
                                                     type="radio"
                                                     name="OpcionVoto"
                                                     id={`${key}`}
-                                                    value={value as string}
-                                                    checked={data.OpcionVoto === value}
+                                                    value={`${key}`}
+                                                    checked={data.OpcionVoto === key}
                                                     onChange={handleChange}
                                                     required
                                                 />

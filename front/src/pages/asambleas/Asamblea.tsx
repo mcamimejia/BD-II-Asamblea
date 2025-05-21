@@ -3,7 +3,7 @@ import type { Alert } from "../../types/Alert";
 import { asambleaDetails } from "../../api/asambleaService";
 import type { Asamblea } from "../../types/Asamblea";
 import type { Mocion, Opciones, ResultadosMocion } from "../../types/Mocion";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import type { ParticipanteAsamblea } from "../../types/ParticipanteAsamblea";
 import { formatNumber } from "../../utils/formatNumber";
 import CreateMocionModal from "../../components/modal/CreateMocionModal";
@@ -14,7 +14,7 @@ import { io, Socket } from "socket.io-client";
 export default function Asamblea() {
     const [asamblea, setAsamblea] = useState<Asamblea | null>(null);
     const [mociones, setMociones] = useState<Mocion[]>([]);
-    const [resultados, setResultados] = useState<{resultado: ResultadosMocion, opciones: Opciones} | null>(null);
+    const [resultados, setResultados] = useState<{ resultado: ResultadosMocion, opciones: Opciones } | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [alert, setAlert] = useState<Alert | null>(null);
     const [participante, setParticipante] = useState<ParticipanteAsamblea | null>(null);
@@ -28,8 +28,8 @@ export default function Asamblea() {
         const newSocket = io(import.meta.env.VITE_API_URL);
         setSocket(newSocket);
 
-        newSocket.on("mocionCreada", (mocion) => {
-            if(participante?.Rol?.IdRol === 'ROL003'){
+        newSocket.on("mocionCreada", (mocion: Mocion) => {
+            if (participante?.Rol?.IdRol === 'ROL003') {
                 setMocionActiva(mocion);
                 setTimeout(() => {
                     const modal = document.getElementById('votarModal');
@@ -46,7 +46,8 @@ export default function Asamblea() {
             }
         });
 
-        newSocket.on("mocionInactiva", () => {
+        newSocket.on("mocionInactiva", (idMocion) => {
+            if (mocionActiva?.IdMocion !== idMocion) return;
             const modal = document.getElementById('votarModal');
             if (modal) {
                 // @ts-ignore
@@ -58,10 +59,10 @@ export default function Asamblea() {
             setMocionActiva(null);
         });
 
-        newSocket.on("resultadosMocion", (idMocion) => {
-            const mocion = mociones.find(x => x.IdMocion === idMocion.id);
+        newSocket.on("resultadosMocion", (resultados: ResultadosMocion) => {
+            const mocion = mociones.find(x => x.IdMocion === resultados?.Mocion?.IdMocion);
             if (!mocion) return;
-            setResultados({resultado: mocion?.Resultados[0], opciones: mocion?.Opciones});
+            setResultados({ resultado: resultados, opciones: mocion?.Opciones });
             setTimeout(() => {
                 const modal = document.getElementById('resultadosModal');
                 if (modal) {
@@ -98,10 +99,10 @@ export default function Asamblea() {
             if (res.asamblea) {
                 setAsamblea(res.asamblea);
             }
-            if(res.asamblea?.Mociones){
+            if (res.asamblea?.Mociones) {
                 setMociones(res.asamblea.Mociones)
             }
-            if(res.participante){
+            if (res.participante) {
                 setParticipante(res.participante)
             }
         } catch (error: any) {
@@ -119,6 +120,11 @@ export default function Asamblea() {
 
     return (
         <div className='asamblea-list-container container'>
+            <Link to={'/asambleas'}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#000" className="bi bi-arrow-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+                </svg>
+            </Link>
             <h1>{asamblea?.Nombre}</h1>
             <div className="row mt-5">
                 <div className="col">
@@ -170,14 +176,16 @@ export default function Asamblea() {
                                         <td>{x.HoraInicio && new Date(x.HoraInicio).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
                                         <td>{x.HoraFin && new Date(x.HoraFin).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
                                         <td>
-                                            <button 
-                                                onClick={() => setResultados({resultado: x.Resultados[0], opciones: x.Opciones})} 
-                                                className="btn btn-primary"
-                                                data-bs-toggle="modal" 
-                                                data-bs-target="#resultadosModal"
-                                            >
-                                                Ver resultados
-                                            </button>
+                                            {x.Resultados.length > 0 && x.Resultados[0] && (
+                                                <button
+                                                    onClick={() => setResultados({ resultado: x.Resultados[0], opciones: x.Opciones })}
+                                                    className="btn btn-primary"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#resultadosModal"
+                                                >
+                                                    Ver resultados
+                                                </button>
+                                            )}
                                         </td>
                                     </tr>
                                 ))
@@ -187,13 +195,16 @@ export default function Asamblea() {
                     </table>
                 </div>
             </div>
-            <CreateMocionModal 
-                idAsamblea={id ?? ''}  
+            <CreateMocionModal
+                idAsamblea={id ?? ''}
                 onSuccess={fetch}
             />
             <ResultadosModal
                 resultados={resultados}
-                handleClose={() => setResultados(null)}
+                handleClose={() => {
+                    setResultados(null)
+                    fetch();
+                }}
             />
             {mocionActiva && (
                 <VotarModal

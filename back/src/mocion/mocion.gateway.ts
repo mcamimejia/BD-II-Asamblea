@@ -1,5 +1,7 @@
 import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Server } from 'socket.io';
+import { Mocion } from 'src/entities/Mocion.entity';
+import { ResultadosMocion } from 'src/entities/ResultadosMocion.entity';
 
 @WebSocketGateway(
   {
@@ -13,15 +15,15 @@ export class MocionGateway {
   @WebSocketServer()
   server: Server;
 
-  emitMocionCreada(mocion: any) {
+  emitMocionCreada(mocion: Mocion) {
     this.server.emit('mocionCreada', mocion);
   }
 
   emitMocionInactiva(idMocion: string) {
-    this.server.emit('mocionInactiva', { id: idMocion });
+    this.server.emit('mocionInactiva', idMocion);
   }
 
-  emitResultadosMocion(idMocion: string) {
-    this.server.emit('resultadosMocion', { id: idMocion });
+  emitResultadosMocion(resultados: ResultadosMocion) {
+    this.server.emit('resultadosMocion', resultados);
   }
 }

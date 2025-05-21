@@ -46,6 +46,8 @@ export class ResultadoMocionService {
             .reduce((max, actual) => actual[1] > max[1] ? actual : max);
 
         const porcentajeMayorVotos = (cantidadMayorVotos / cantidadVotosTotal) * 100;
+        console.log(`Porcentaje de votos para la opción ${opcionMayorVotos}: ${porcentajeMayorVotos.toFixed(2)}%`);
+        console.log(`Opción con mayor cantidad de votos: ${opcionMayorVotos} (${cantidadMayorVotos} votos)`);
 
         const newResultado = new ResultadosMocion();
         newResultado.IdResultadoMocion = generarId('RES');
@@ -54,8 +56,8 @@ export class ResultadoMocionService {
         newResultado.CantidadVotosTotal = cantidadVotosTotal;
         newResultado.Mocion = mocion;
 
-        await this.resultadoRepo.save(newResultado);
+        const savedResultados = await this.resultadoRepo.save(newResultado);
 
-        this.mocionGateway.emitResultadosMocion(IdMocion);
+        this.mocionGateway.emitResultadosMocion(savedResultados);
     }
 }

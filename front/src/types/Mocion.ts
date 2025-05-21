@@ -14,6 +14,7 @@ export type ResultadosMocion = {
     Estado: string;
     CantidadVotosTotal: number;
     RequiereSecundar: boolean;
+    Mocion?: Mocion;
 }
 
 export type Opciones = {

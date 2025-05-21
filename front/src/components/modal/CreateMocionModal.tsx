@@ -69,6 +69,7 @@ export default function CreateMocionModal({ idAsamblea, onSuccess }: CreateMocio
         setData({
             Pregunta: '',
             IdAsamblea: idAsamblea,
+            Descripcion: '',
             Opcion1: '',
             Opcion2: '',
         });

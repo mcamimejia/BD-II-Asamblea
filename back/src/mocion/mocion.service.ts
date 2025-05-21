@@ -1,10 +1,9 @@
-import { Injectable, Inject, forwardRef, BadRequestException, NotFoundException } from '@nestjs/common';
+import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AsambleaService } from 'src/asamblea/asamblea.service';
 import { CreateMocionDto } from 'src/dto/CreateMocionDto';
 import { Mocion } from 'src/entities/Mocion.entity';
 import { Opciones } from 'src/entities/Opciones.entity';
-import { formatTime } from 'src/utils/formatTime';
 import { generarId } from 'src/utils/generateIds';
 import { Repository } from 'typeorm';
 import { MocionGateway } from './mocion.gateway';
@@ -60,7 +59,7 @@ export class MocionService {
         opciones.Opcion10 = createMocionDto.Opcion10;
 
         const horaInicio = new Date();
-        const horaFin = new Date(horaInicio.getTime() + 10 * 60000); // 10 min later
+        const horaFin = new Date(horaInicio.getTime() + 2 * 60000); // 2 min later
 
         const newMocion = new Mocion();
         newMocion.IdMocion = idMocion;
@@ -83,7 +82,7 @@ export class MocionService {
         setTimeout(async () => {
             this.mocionGateway.emitMocionInactiva(savedMocion.IdMocion);
             this.resultadoMocionService.createResultado(savedMocion.IdMocion);
-        }, 10 * 60000); // 10 minutos
+        }, 2 * 60000); // 2 minutos
 
         return {
             message: 'Moción registrada exitosamente',
