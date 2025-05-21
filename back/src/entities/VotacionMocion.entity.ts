@@ -16,7 +16,7 @@ export class VotacionMocion {
   @Column()
   OpcionVoto: string;
 
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'datetime' })
   FechaHoraVoto: Date;
 
   @ManyToOne(() => ParticipanteAsamblea, participante => participante.Votaciones, {

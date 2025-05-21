@@ -90,7 +90,7 @@ export default function VotarModal({ mocion, participanteId, onSuccess }: VotarM
                         <button type="button" className="btn-close" onClick={handleClose} data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div className="modal-body">
-                        <h3>{mocion.Pregunta}</h3>
+                        <h5>{mocion.Pregunta}</h5>
                         <p>{mocion.Descripcion}</p>
                         <form onSubmit={handleSubmit}>
                             <div className="mb-3">

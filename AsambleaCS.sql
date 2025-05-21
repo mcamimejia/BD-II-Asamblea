@@ -308,7 +308,7 @@ GO
 CREATE TABLE VotacionMocion(
 IdVotacionMocion VARCHAR(25) PRIMARY KEY NOT NULL,
 OpcionVoto VARCHAR(100) NOT NULL,
-FechaHoraVoto TIMESTAMP NOT NULL,
+FechaHoraVoto DATETIME NOT NULL,
 IdParticipante VARCHAR(25) NOT NULL,
 IdMocion VARCHAR(25) NOT NULL,
 FOREIGN KEY(IdParticipante) REFERENCES ParticipanteAsamblea(IdParticipante),
