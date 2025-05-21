@@ -8,7 +8,7 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 export class ResultadoMocionController {
   constructor(private readonly resultadoService: ResultadoMocionService) {}
 
-  @Get('mocion/:idMocion')
+  @Get(':idMocion')
   async getByMocionId(@Param('idMocion') idMocion: string): Promise<ResultadosMocion | null> {
     return this.resultadoService.findByMocionId(idMocion);
   }

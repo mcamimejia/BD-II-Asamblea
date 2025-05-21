@@ -3,6 +3,6 @@ export type Mocion = {
     Pregunta: string;
     Descripcion?: string;
     TipoMocion: string;
-    HoraInicio: string;
-    HoraFin: string;
+    HoraInicio: Date;
+    HoraFin: Date;
 }

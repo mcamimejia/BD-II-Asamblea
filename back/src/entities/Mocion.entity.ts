@@ -31,7 +31,7 @@ export class Mocion {
   @Column({ type: 'datetime' }) 
   HoraFin: Date;
 
-  @ManyToOne(() => Opciones, opciones => opciones.mociones)
+  @ManyToOne(() => Opciones, opciones => opciones.mociones, { cascade: true })
   @JoinColumn({ name: 'IdOpciones' })
   Opciones: Opciones;
 

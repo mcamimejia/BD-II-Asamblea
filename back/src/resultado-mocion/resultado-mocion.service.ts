@@ -29,7 +29,7 @@ export class ResultadoMocionService {
             throw new NotFoundException('Mocion no encontrada');
         }
         const votaciones = await this.votacionMocionService.findAllByMocionId(IdMocion);
-        if (!votaciones) {
+        if (!votaciones.length) {
             throw new NotFoundException('No hay votaciones para esta mocion');
         }
         const cantidadVotosTotal = votaciones.length;

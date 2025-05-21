@@ -34,7 +34,7 @@ export default function Asamblea() {
                 setAsamblea(res.asamblea);
             }
             if(res.asamblea?.Mociones){
-                setMociones(res.Mociones)
+                setMociones(res.asamblea.Mociones)
             }
             if(res.participante){
                 setParticipante(res.participante)
@@ -102,9 +102,9 @@ export default function Asamblea() {
                                         <td>{x.Pregunta}</td>
                                         <td>{x.Descripcion}</td>
                                         <td>{x.TipoMocion}</td>
-                                        <td>{new Date(`${asamblea?.Fecha}T${x.HoraInicio}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
-                                        <td>{new Date(`${asamblea?.Fecha}T${x.HoraFin}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
-                                        <td><button>Ver resultados</button></td>
+                                        <td>{x.HoraInicio && new Date(x.HoraInicio).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
+                                        <td>{x.HoraFin && new Date(x.HoraFin).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
+                                        <td><button className="btn btn-primary">Ver resultados</button></td>
                                     </tr>
                                 ))
                                 : <tr><td colSpan={7} className="text-center">No hay mociones para mostrar</td></tr>
