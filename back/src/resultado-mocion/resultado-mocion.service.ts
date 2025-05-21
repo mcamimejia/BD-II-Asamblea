@@ -26,11 +26,13 @@ export class ResultadoMocionService {
     async createResultado(IdMocion: string): Promise<void> {
         const mocion = await this.mocionService.findById(IdMocion);
         if (!mocion) {
-            throw new NotFoundException('Mocion no encontrada');
+            console.error('Mocion no encontrada');
+            return;
         }
         const votaciones = await this.votacionMocionService.findAllByMocionId(IdMocion);
         if (!votaciones.length) {
-            throw new NotFoundException('No hay votaciones para esta mocion');
+            console.error('No hay votaciones para esta mocion');
+            return;
         }
         const cantidadVotosTotal = votaciones.length;
         const votosPerOption: Record<string, number> = {};

@@ -4,6 +4,7 @@ import { asambleaList } from "../../api/asambleaService";
 import type { AsambleaListRes } from "../../types/Asamblea";
 import { Link } from "react-router-dom";
 import ParticiparModal from "../../components/modal/ParticiparModal";
+import { formatNumber } from "../../utils/formatNumber";
 
 export default function AsambleaList() {
     const [asambleas, setAsambleas] = useState<AsambleaListRes[]>([]);
@@ -46,6 +47,7 @@ export default function AsambleaList() {
                                 <th scope="col">Hora Fin</th>
                                 <th scope="col">Lugar</th>
                                 <th scope="col">Tipo</th>
+                                <th scope="col">Máx. de acciones por participante</th>
                                 <th scope="col">Acción</th>
                             </tr>
                         </thead>
@@ -59,6 +61,7 @@ export default function AsambleaList() {
                                         <td>{new Date(`${x.Fecha}T${x.HoraFin}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
                                         <td>{x.Lugar}</td>
                                         <td>{x.Tipo}</td>
+                                        <td>{formatNumber(x.AccionesMaximoParticipante,0)}</td>
                                         <td>
                                             {x.isParticipante 
                                                 ? <Link to={`/asamblea/${x.IdAsamblea}`}>Ver detalles</Link>
