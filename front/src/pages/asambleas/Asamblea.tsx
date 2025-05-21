@@ -8,6 +8,8 @@ import type { ParticipanteAsamblea } from "../../types/ParticipanteAsamblea";
 import { formatNumber } from "../../utils/formatNumber";
 import CreateMocionModal from "../../components/modal/CreateMocionModal";
 import ResultadosModal from "../../components/modal/ResultadosModal";
+import VotarModal from "../../components/modal/VotarModal";
+import { io, Socket } from "socket.io-client";
 
 export default function Asamblea() {
     const [asamblea, setAsamblea] = useState<Asamblea | null>(null);
@@ -16,7 +18,68 @@ export default function Asamblea() {
     const [loading, setLoading] = useState<boolean>(true);
     const [alert, setAlert] = useState<Alert | null>(null);
     const [participante, setParticipante] = useState<ParticipanteAsamblea | null>(null);
+    const [mocionActiva, setMocionActiva] = useState<Mocion | null>(null);
     const { id } = useParams<{ id: string }>();
+
+    const [socket, setSocket] = useState<Socket | null>(null);
+
+    useEffect(() => {
+        // Conexión al websocket
+        const newSocket = io(import.meta.env.VITE_API_URL);
+        setSocket(newSocket);
+
+        newSocket.on("mocionCreada", (mocion) => {
+            if(participante?.Rol?.IdRol === 'ROL003'){
+                setMocionActiva(mocion);
+                setTimeout(() => {
+                    const modal = document.getElementById('votarModal');
+                    if (modal) {
+                        // @ts-ignore
+                        let bsModal = window.bootstrap.Modal.getInstance(modal);
+                        if (!bsModal) {
+                            // @ts-ignore
+                            bsModal = new window.bootstrap.Modal(modal);
+                        }
+                        bsModal.show();
+                    }
+                }, 100);
+            }
+        });
+
+        newSocket.on("mocionInactiva", () => {
+            const modal = document.getElementById('votarModal');
+            if (modal) {
+                // @ts-ignore
+                const bsModal = window.bootstrap.Modal.getInstance(modal);
+                if (bsModal) {
+                    bsModal.hide();
+                }
+            }
+            setMocionActiva(null);
+        });
+
+        newSocket.on("resultadosMocion", (idMocion) => {
+            const mocion = mociones.find(x => x.IdMocion === idMocion.id);
+            if (!mocion) return;
+            setResultados({resultado: mocion?.Resultados[0], opciones: mocion?.Opciones});
+            setTimeout(() => {
+                const modal = document.getElementById('resultadosModal');
+                if (modal) {
+                    // @ts-ignore
+                    let bsModal = window.bootstrap.Modal.getInstance(modal);
+                    if (!bsModal) {
+                        // @ts-ignore
+                        bsModal = new window.bootstrap.Modal(modal);
+                    }
+                    bsModal.show();
+                }
+            }, 100);
+        });
+
+        return () => {
+            newSocket.disconnect();
+        };
+    }, [participante]);
 
     useEffect(() => {
         fetch();
@@ -132,6 +195,13 @@ export default function Asamblea() {
                 resultados={resultados}
                 handleClose={() => setResultados(null)}
             />
+            {mocionActiva && (
+                <VotarModal
+                    mocion={mocionActiva}
+                    participanteId={participante?.IdParticipante ?? ''}
+                    onSuccess={fetch}
+                />
+            )}
         </div>
     )
 }
