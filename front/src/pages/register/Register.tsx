@@ -149,6 +149,7 @@ export default function Register() {
                                 />
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="FechaExpedicion" className="form-label">Fecha de expedición</label>
                                 <input
                                     type="date"
                                     className="form-control"

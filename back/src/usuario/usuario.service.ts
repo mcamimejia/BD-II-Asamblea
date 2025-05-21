@@ -21,6 +21,18 @@ export class UsuarioService {
       || !registerDto.DireccionUno || !registerDto.Barrio || !registerDto.Ciudad || !registerDto.Pais) {
       throw new BadRequestException('Faltan datos requeridos');
     }
+
+    const existingUser = await this.findByEmail(registerDto.Correo);
+  if (existingUser) {
+    throw new BadRequestException('El correo ya está registrado');
+  }
+
+    const existingDocumento = await this.findByNumDocumento(registerDto.NumDocumento);
+  if (existingDocumento) {
+    throw new BadRequestException('El número de documento ya está registrado');
+  }
+
+  
     const { Password, ...rest } = registerDto;
     const HashPassword = await bcrypt.hash(Password, 10);
     
@@ -75,4 +87,9 @@ export class UsuarioService {
   async findById(id: string): Promise<Usuario | null> {
     return this.usuarioRepo.findOne({ where: { IdUsuario: id } });
   }
+
+  async findByNumDocumento(numDocumento: number): Promise<Documento | null> {
+  const documentoRepo = this.usuarioRepo.manager.getRepository(Documento);
+  return documentoRepo.findOne({ where: { NumDocumento: numDocumento } });
+}
 }
