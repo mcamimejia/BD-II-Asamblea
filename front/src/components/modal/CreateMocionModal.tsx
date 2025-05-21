@@ -81,7 +81,7 @@ export default function CreateMocionModal({ idAsamblea, onSuccess }: CreateMocio
             className="modal fade"
             id="crearMocionModal"
             tabIndex={-1}
-            aria-labelledby="particiarModalLabel"
+            aria-labelledby="creacionMocionModalLabel"
             aria-hidden="true"
         >
             <div className="modal-dialog">

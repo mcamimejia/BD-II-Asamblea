@@ -2,15 +2,17 @@ import { useEffect, useState } from "react";
 import type { Alert } from "../../types/Alert";
 import { asambleaDetails } from "../../api/asambleaService";
 import type { Asamblea } from "../../types/Asamblea";
-import type { Mocion } from "../../types/Mocion";
+import type { Mocion, Opciones, ResultadosMocion } from "../../types/Mocion";
 import { useParams } from "react-router-dom";
 import type { ParticipanteAsamblea } from "../../types/ParticipanteAsamblea";
 import { formatNumber } from "../../utils/formatNumber";
 import CreateMocionModal from "../../components/modal/CreateMocionModal";
+import ResultadosModal from "../../components/modal/ResultadosModal";
 
 export default function Asamblea() {
     const [asamblea, setAsamblea] = useState<Asamblea | null>(null);
     const [mociones, setMociones] = useState<Mocion[]>([]);
+    const [resultados, setResultados] = useState<{resultado: ResultadosMocion, opciones: Opciones} | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [alert, setAlert] = useState<Alert | null>(null);
     const [participante, setParticipante] = useState<ParticipanteAsamblea | null>(null);
@@ -104,7 +106,16 @@ export default function Asamblea() {
                                         <td>{x.TipoMocion}</td>
                                         <td>{x.HoraInicio && new Date(x.HoraInicio).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
                                         <td>{x.HoraFin && new Date(x.HoraFin).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
-                                        <td><button className="btn btn-primary">Ver resultados</button></td>
+                                        <td>
+                                            <button 
+                                                onClick={() => setResultados({resultado: x.Resultados[0], opciones: x.Opciones})} 
+                                                className="btn btn-primary"
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#resultadosModal"
+                                            >
+                                                Ver resultados
+                                            </button>
+                                        </td>
                                     </tr>
                                 ))
                                 : <tr><td colSpan={7} className="text-center">No hay mociones para mostrar</td></tr>
@@ -116,6 +127,10 @@ export default function Asamblea() {
             <CreateMocionModal 
                 idAsamblea={id ?? ''}  
                 onSuccess={fetch}
+            />
+            <ResultadosModal
+                resultados={resultados}
+                handleClose={() => setResultados(null)}
             />
         </div>
     )
